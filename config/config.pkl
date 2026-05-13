@@ -1,0 +1,32 @@
+/// Trend Radar configuration
+module config
+
+/// ETFs to track, covering all major market sectors
+etfs: Listing<Dynamic> = new {
+  new { ticker = "XLK"; name = "Technology Select Sector SPDR"; sector = "Technology" }
+  new { ticker = "XLV"; name = "Health Care Select Sector SPDR"; sector = "Healthcare" }
+  new { ticker = "XLF"; name = "Financial Select Sector SPDR"; sector = "Financials" }
+  new { ticker = "XLE"; name = "Energy Select Sector SPDR"; sector = "Energy" }
+  new { ticker = "XLY"; name = "Consumer Discret Select Sector SPDR"; sector = "Consumer Discretionary" }
+  new { ticker = "XLP"; name = "Consumer Staples Select Sector SPDR"; sector = "Consumer Staples" }
+  new { ticker = "XLI"; name = "Industrial Select Sector SPDR"; sector = "Industrials" }
+  new { ticker = "XLB"; name = "Materials Select Sector SPDR"; sector = "Materials" }
+  new { ticker = "XLRE"; name = "Real Estate Select Sector SPDR"; sector = "Real Estate" }
+  new { ticker = "XLU"; name = "Utilities Select Sector SPDR"; sector = "Utilities" }
+  new { ticker = "XLC"; name = "Communication Services Select Sector SPDR"; sector = "Communication Services" }
+  new { ticker = "QQQ"; name = "Invesco QQQ Trust (Nasdaq-100)"; sector = "Large-Cap Tech" }
+  new { ticker = "IBB"; name = "iShares Biotechnology ETF"; sector = "Biotechnology" }
+  new { ticker = "IYR"; name = "iShares US Real Estate ETF"; sector = "Real Estate (Broad)" }
+}
+
+/// Lookback periods in trading days for return calculations
+lookbackPeriods: Listing<Int> = new { 5; 21; 63 }
+
+/// Z-score threshold above which a move is considered "notable"
+notableMoverThreshold: Float = 2.0
+
+/// Recipient email address for weekly reports
+recipientEmail: String = "lewishum96@gmail.com"
+
+/// Number of top sectors to highlight in the trending section
+topN: Int = 5
