@@ -30,3 +30,9 @@ recipientEmail: String = "lewishum96@gmail.com"
 
 /// Number of top sectors to highlight in the trending section
 topN: Int = 5
+
+/// Resend API key (https://resend.com), e.g. "re_xxxxxxxxxxxxxxxxxxxx"
+resendApiKey: String
+
+/// Sender address (must be verified in your Resend account; use onboarding@resend.dev for testing)
+fromEmail: String = "onboarding@resend.dev"
