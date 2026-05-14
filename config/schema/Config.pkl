@@ -19,6 +19,16 @@ etfs: Listing<Dynamic> = new {
   new { ticker = "IYR"; name = "iShares US Real Estate ETF"; sector = "Real Estate (Broad)" }
 }
 
+/// Major indices for market overview (reference only, not ranked)
+indices: Listing<Dynamic> = new {
+  new { ticker = "^GSPC";    name = "S&P 500"      }
+  new { ticker = "^NDX";     name = "NASDAQ 100"   }
+  new { ticker = "^RUT";     name = "Russell 2000" }
+  new { ticker = "^N225";    name = "Nikkei 225"   }
+  new { ticker = "^HSI";     name = "Hang Seng"    }
+  new { ticker = "^STOXX50E"; name = "Euro Stoxx 50" }
+}
+
 /// Lookback periods in trading days for return calculations
 lookbackPeriods: Listing<Int> = new { 5; 21; 63 }
 

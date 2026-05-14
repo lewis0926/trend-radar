@@ -18,15 +18,21 @@ def run() -> None:
 
     resend.api_key = config.resend_api_key
 
-    print(f"Fetching prices for {len(config.tickers)} tickers…")
-    prices = fetch_prices(config.tickers)
-    print(f"Fetched {len(prices)} trading days of data.")
+    print(f"Fetching prices for {len(config.tickers)} ETFs…")
+    etf_prices = fetch_prices(config.tickers)
 
-    returns_df = calculate_returns(prices, config.lookback_periods)
-    notable_movers = get_notable_movers(prices, threshold=config.notable_mover_threshold)
+    print(f"Fetching prices for {len(config.index_tickers)} indices…")
+    index_prices = fetch_prices(config.index_tickers)
+
+    print(f"Fetched {len(etf_prices)} trading days of data.")
+
+    returns_df = calculate_returns(etf_prices, config.lookback_periods)
+    index_returns_df = calculate_returns(index_prices, config.lookback_periods)
+    notable_movers = get_notable_movers(etf_prices, threshold=config.notable_mover_threshold)
 
     subject, html = build_email(
         returns_df=returns_df,
+        index_returns_df=index_returns_df,
         notable_movers=notable_movers,
         config=config,
         as_of=date.today(),

@@ -19,6 +19,7 @@ def _medal(rank: int) -> str:
 
 def build_email(
     returns_df: pd.DataFrame,
+    index_returns_df: pd.DataFrame,
     notable_movers: list[dict],
     config: AppConfig,
     as_of: date | None = None,
@@ -29,6 +30,38 @@ def build_email(
 
     periods = config.lookback_periods  # e.g. [5, 21, 63]
     period_labels = {5: "1W", 21: "1M", 63: "3M"}
+
+    # ── Market overview ───────────────────────────────────────────────────────
+    index_rows = ""
+    for i, (ticker, row) in enumerate(index_returns_df.iterrows()):
+        bg = "#f9fafb" if i % 2 == 0 else "#ffffff"
+        cols = ""
+        for n in periods:
+            val = row.get(f"return_{n}d", float("nan"))
+            cols += f'<td style="padding:8px 12px;text-align:right;font-weight:600;color:{_color(val)}">{_pct(val)}</td>'
+        index_rows += f"""
+        <tr style="background:{bg}">
+          <td style="padding:8px 12px;font-weight:700;color:#111827">{config.index_name_for(ticker)}</td>
+          {cols}
+        </tr>"""
+
+    period_headers_narrow = "".join(
+        f'<th style="padding:8px 12px;text-align:right">{period_labels.get(n, f"{n}d")}</th>'
+        for n in periods
+    )
+
+    market_overview_section = f"""
+          <h2 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 8px">🌍 Market Overview</h2>
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb">
+            <thead>
+              <tr style="background:#0f172a;color:#94a3b8;font-size:12px;text-transform:uppercase">
+                <th style="padding:8px 12px;text-align:left">Index</th>
+                {period_headers_narrow}
+              </tr>
+            </thead>
+            <tbody>{index_rows}
+            </tbody>
+          </table>"""
 
     # ── Top trending sectors ──────────────────────────────────────────────────
     top_rows = ""
@@ -122,8 +155,10 @@ def build_email(
         <!-- Body -->
         <tr><td style="background:#ffffff;border-radius:0 0 12px 12px;padding:28px 32px">
 
+          {market_overview_section}
+
           <!-- Top trending -->
-          <h2 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 8px">🏆 Top Trending Industries</h2>
+          <h2 style="font-size:16px;font-weight:700;color:#111827;margin:32px 0 8px">🏆 Top Trending Industries</h2>
           <p style="color:#6b7280;font-size:13px;margin:0 0 12px">Ranked by composite momentum across 1W, 1M, and 3M returns.</p>
           <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb">
             <thead>
