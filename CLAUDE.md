@@ -33,3 +33,4 @@ Build the Docker image and deploy as a container. The frontend is a static build
 
 ## Coding Standards
 - `config.json` is the single config file. All configuration — including secrets like API keys — goes in env Pkl files and flows into `config.json` (which is gitignored). No `.env` files, no environment variables.
+- All Python functions must have explicit type annotations on parameters, return values, and newly defined variables.

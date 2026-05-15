@@ -1,8 +1,9 @@
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
-CONFIG_PATH = Path(__file__).parent.parent / "config.json"
+CONFIG_PATH: Path = Path(__file__).parent.parent / "config.json"
 
 
 @dataclass
@@ -55,7 +56,7 @@ class AppConfig:
 
 def load_config(path: Path = CONFIG_PATH) -> AppConfig:
     with open(path) as f:
-        raw = json.load(f)
+        raw: dict[str, Any] = json.load(f)
     return AppConfig(
         etfs=[ETF(**e) for e in raw["etfs"]],
         indices=[Index(**i) for i in raw["indices"]],
