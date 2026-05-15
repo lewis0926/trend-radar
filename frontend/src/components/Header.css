@@ -1,0 +1,62 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.header-logo-trend { color: var(--white); }
+.header-logo-radar { color: var(--orange); }
+
+.header-subtitle {
+  color: #aaaaaa;
+  font-size: 10px;
+  margin-top: 4px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.header-meta { text-align: right; }
+
+.header-live {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+
+.header-live-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--green);
+  display: inline-block;
+}
+
+.header-live-label {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.header-date {
+  color: #cccccc;
+  font-size: 11px;
+  font-weight: 900;
+}

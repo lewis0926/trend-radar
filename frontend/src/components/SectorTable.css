@@ -1,0 +1,99 @@
+.sector-table-wrapper {
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.sector-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sector-table th {
+  background: var(--surface);
+  color: var(--white);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 14px;
+  text-align: left;
+  border-bottom: 1px solid #2a2a2a;
+  font-weight: 700;
+}
+
+.sector-table th.align-right { text-align: right; }
+.sector-table th.col-momentum { min-width: 130px; }
+
+/* Rows */
+.sector-row { border-top: 1px solid var(--border); }
+
+.sector-row-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  height: 36px;
+}
+
+.sector-rank {
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 18px;
+  color: var(--gray);
+}
+
+.sector-rank--top { color: var(--orange); }
+
+.sector-name {
+  color: var(--white);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.sector-ticker {
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Return cells */
+.return-cell {
+  text-align: right;
+  padding: 0 14px;
+  height: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Score bar */
+.score-bar-cell {
+  padding: 0 14px;
+  min-width: 130px;
+  height: 36px;
+}
+
+.score-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-bar-track {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+}
+
+.score-bar-fill {
+  height: 100%;
+  background: var(--orange);
+}
+
+.score-bar-value {
+  color: var(--orange);
+  font-size: 12px;
+  width: 24px;
+  text-align: right;
+  font-weight: 600;
+}

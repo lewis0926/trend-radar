@@ -34,3 +34,16 @@ Build the Docker image and deploy as a container. The frontend is a static build
 ## Coding Standards
 - `config.json` is the single config file. All configuration — including secrets like API keys — goes in env Pkl files and flows into `config.json` (which is gitignored). No `.env` files, no environment variables.
 - All Python functions must have explicit type annotations on parameters, return values, and newly defined variables.
+
+## Frontend Coding Standards
+
+**Component structure**
+- Each logical UI section gets its own component file in `frontend/src/components/`.
+- Components with non-trivial styles get a co-located `.css` file (e.g. `Header.tsx` + `Header.css`).
+- `App.tsx` is a thin orchestrator: data fetching + layout only, no styling.
+
+**CSS over inline styles**
+- All styling goes in CSS files — no inline `style={{}}` props except for values that are purely data-driven at runtime (e.g. a bar width from a percentage, a border color from a positive/negative value).
+- Design tokens (colors, fonts) live as CSS custom properties in `index.css` under `:root`. Reference them as `var(--orange)` etc. — never hardcode hex values in component CSS or JS.
+- Common utility classes (`.mono`, `.tabular`, `.positive`, `.negative`) are defined in `index.css` and composed in JSX `className`.
+- Shared structural patterns (`.section-title`, `.page`) are defined in `index.css`; component-specific styles go in the component's own CSS file.

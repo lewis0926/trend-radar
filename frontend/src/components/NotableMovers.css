@@ -1,0 +1,35 @@
+.movers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mover-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  padding: 10px 14px;
+  min-width: 120px;
+}
+
+.mover-card--up   { border-left-color: var(--green); }
+.mover-card--down { border-left-color: var(--red); }
+
+.mover-ticker {
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.mover-return {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.mover-zscore {
+  color: #cccccc;
+  font-size: 11px;
+  margin-top: 4px;
+}
