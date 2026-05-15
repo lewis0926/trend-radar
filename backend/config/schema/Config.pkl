@@ -19,6 +19,3 @@ etfs: Listing<Dynamic> = new {
 
 /// Z-score threshold above which a move is considered "notable"
 notableMoverThreshold: Float = 2.0
-
-/// Number of top sectors to highlight in the trending section
-topN: Int = 5

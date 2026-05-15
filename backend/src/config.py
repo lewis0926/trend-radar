@@ -17,7 +17,6 @@ class ETF:
 class AppConfig:
     etfs: list[ETF]
     notable_mover_threshold: float
-    top_n: int
 
     @property
     def tickers(self) -> list[str]:
@@ -42,5 +41,4 @@ def load_config(path: Path = CONFIG_PATH) -> AppConfig:
     return AppConfig(
         etfs=[ETF(**e) for e in raw["etfs"]],
         notable_mover_threshold=raw["notableMoverThreshold"],
-        top_n=raw["topN"],
     )

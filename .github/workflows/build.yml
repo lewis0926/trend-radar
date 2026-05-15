@@ -27,8 +27,11 @@ jobs:
       - name: Sanitize branch name
         id: branch
         run: |
-          name=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g' | tr '[:upper:]' '[:lower:]')
-          echo "name=$name" >> $GITHUB_OUTPUT
+          echo "name=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      - name: Short commit SHA
+        id: commit
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Docker metadata
         id: meta
@@ -37,7 +40,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.OWNER }}/trend-radar-backend-${{ steps.branch.outputs.name }}
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=sha,format=short
+            type=raw,value=${{ steps.commit.outputs.short }}
 
       - name: Log in to GHCR
         if: github.event_name == 'push'
@@ -72,8 +75,11 @@ jobs:
       - name: Sanitize branch name
         id: branch
         run: |
-          name=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g' | tr '[:upper:]' '[:lower:]')
-          echo "name=$name" >> $GITHUB_OUTPUT
+          echo "name=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      - name: Short commit SHA
+        id: commit
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Docker metadata
         id: meta
@@ -82,7 +88,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.OWNER }}/trend-radar-frontend-${{ steps.branch.outputs.name }}
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=sha,format=short
+            type=raw,value=${{ steps.commit.outputs.short }}
 
       - name: Log in to GHCR
         if: github.event_name == 'push'
