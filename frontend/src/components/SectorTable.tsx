@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { SectorItem } from '../types'
 import { pct } from '../utils'
 import SectionTitle from './SectionTitle'
@@ -33,7 +34,7 @@ function SectorRow({ sector, rank }: { sector: SectorItem; rank: number }) {
           <span className={`sector-rank mono ${rank <= 3 ? 'sector-rank--top' : ''}`}>
             {String(rank).padStart(2, '0')}
           </span>
-          <span className="sector-name">{sector.sector}</span>
+          <Link to={`/sector/${sector.ticker}`} className="sector-name">{sector.sector}</Link>
           <span className="sector-ticker mono">{sector.ticker}</span>
         </div>
       </td>

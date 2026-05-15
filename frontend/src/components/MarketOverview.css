@@ -1,3 +1,18 @@
+.market-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.market-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 6px;
+}
+
 .market-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

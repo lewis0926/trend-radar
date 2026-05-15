@@ -7,6 +7,7 @@ export interface Returns {
 export interface IndexItem {
   ticker: string
   name: string
+  region: 'us' | 'global'
   returns: Returns
 }
 
@@ -15,6 +16,12 @@ export interface SectorItem {
   name: string
   sector: string
   composite_score: number
+  returns: Returns
+}
+
+export interface CommodityItem {
+  ticker: string
+  name: string
   returns: Returns
 }
 
@@ -28,6 +35,7 @@ export interface NotableMover {
 export interface Report {
   as_of: string
   indices: IndexItem[]
+  commodities: CommodityItem[]
   sectors: SectorItem[]
   notable_movers: NotableMover[]
 }

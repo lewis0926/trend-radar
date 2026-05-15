@@ -47,7 +47,11 @@
   color: var(--white);
   font-weight: 600;
   font-size: 13px;
+  text-decoration: none;
+  transition: color 0.15s;
 }
+
+.sector-name:hover { color: var(--orange); }
 
 .sector-ticker {
   color: var(--orange);

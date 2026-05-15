@@ -1,9 +1,14 @@
-import type { IndexItem } from '../types'
+import type { CommodityItem, IndexItem } from '../types'
 import { pct } from '../utils'
 import SectionTitle from './SectionTitle'
 import './MarketOverview.css'
 
-function IndexCard({ name, returns }: IndexItem) {
+interface CardProps {
+  name: string
+  returns: { '5d': number; '21d': number; '63d': number }
+}
+
+function MarketCard({ name, returns }: CardProps) {
   const isUp = returns['5d'] >= 0
   return (
     <div className={`index-card ${isUp ? 'index-card--up' : 'index-card--down'}`}>
@@ -27,14 +32,35 @@ function IndexCard({ name, returns }: IndexItem) {
 
 interface Props {
   indices: IndexItem[]
+  commodities: CommodityItem[]
 }
 
-export default function MarketOverview({ indices }: Props) {
+export default function MarketOverview({ indices, commodities }: Props) {
+  const us      = indices.filter(i => i.region === 'us')
+  const global_ = indices.filter(i => i.region === 'global')
+
   return (
     <section>
       <SectionTitle>Market Overview</SectionTitle>
-      <div className="market-grid">
-        {indices.map(idx => <IndexCard key={idx.ticker} {...idx} />)}
+      <div className="market-groups">
+        <div className="market-group">
+          <div className="market-group-label">US</div>
+          <div className="market-grid">
+            {us.map(idx => <MarketCard key={idx.ticker} name={idx.name} returns={idx.returns} />)}
+          </div>
+        </div>
+        <div className="market-group">
+          <div className="market-group-label">Global</div>
+          <div className="market-grid">
+            {global_.map(idx => <MarketCard key={idx.ticker} name={idx.name} returns={idx.returns} />)}
+          </div>
+        </div>
+        <div className="market-group">
+          <div className="market-group-label">Commodities</div>
+          <div className="market-grid">
+            {commodities.map(c => <MarketCard key={c.ticker} name={c.name} returns={c.returns} />)}
+          </div>
+        </div>
       </div>
     </section>
   )
