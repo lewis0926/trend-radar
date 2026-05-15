@@ -31,4 +31,7 @@ env/
 *.log
 
 # Generated config (regenerate from .pkl)
-config.json
+backend/config.json
+
+# Frontend
+frontend/node_modules/

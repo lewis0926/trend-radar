@@ -24,10 +24,7 @@ class AppConfig:
     indices: list[Index]
     lookback_periods: list[int]
     notable_mover_threshold: float
-    recipient_email: str
     top_n: int
-    resend_api_key: str
-    from_email: str
 
     @property
     def tickers(self) -> list[str]:
@@ -64,8 +61,5 @@ def load_config(path: Path = CONFIG_PATH) -> AppConfig:
         indices=[Index(**i) for i in raw["indices"]],
         lookback_periods=raw["lookbackPeriods"],
         notable_mover_threshold=raw["notableMoverThreshold"],
-        recipient_email=raw["recipientEmail"],
         top_n=raw["topN"],
-        resend_api_key=raw["resendApiKey"],
-        from_email=raw["fromEmail"],
     )

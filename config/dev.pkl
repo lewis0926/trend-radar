@@ -1,3 +1,0 @@
-amends "schema/Config.pkl"
-
-resendApiKey = "re_bHKyXUgu_Gv1bwnQ4rkbd4Wf9RXiR54tg"
