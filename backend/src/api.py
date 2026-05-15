@@ -37,11 +37,10 @@ def get_report() -> dict[str, Any]:
     etf_prices: pd.DataFrame = fetch_prices(config.tickers)
     index_prices: pd.DataFrame = fetch_prices(config.index_tickers)
 
-    returns_df: pd.DataFrame = calculate_returns(etf_prices, config.lookback_periods)
-    index_returns_df: pd.DataFrame = calculate_returns(index_prices, config.lookback_periods)
+    periods: list[int] = [5, 21, 63]
+    returns_df: pd.DataFrame = calculate_returns(etf_prices, periods)
+    index_returns_df: pd.DataFrame = calculate_returns(index_prices, periods)
     notable_movers: list[dict[str, Any]] = get_notable_movers(etf_prices, threshold=config.notable_mover_threshold)
-
-    periods: list[int] = config.lookback_periods
 
     def to_list(
         df: pd.DataFrame,

@@ -12,11 +12,11 @@ function IndexCard({ name, returns }: IndexItem) {
         {pct(returns['5d'])}
       </div>
       <div className="index-card-stats">
-        {([['1M', '21d'], ['3M', '63d']] as [string, '21d' | '63d'][]).map(([label, key]) => (
+        {([['1M', returns['21d']], ['3M', returns['63d']]] as [string, number][]).map(([label, val]) => (
           <div key={label} className="index-card-stat">
             <span className="index-card-stat-label">{label}</span>
-            <span className={`index-card-stat-value mono tabular ${returns[key] >= 0 ? 'positive' : 'negative'}`}>
-              {pct(returns[key])}
+            <span className={`index-card-stat-value mono tabular ${val >= 0 ? 'positive' : 'negative'}`}>
+              {pct(val)}
             </span>
           </div>
         ))}

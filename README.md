@@ -43,7 +43,6 @@ cd frontend && bun run dev
 
 | Field | Default | Description |
 |-------|---------|-------------|
-| `lookbackPeriods` | `[5, 21, 63]` | Return periods in trading days (1W, 1M, 3M) |
 | `notableMoverThreshold` | `2.0` | Z-score threshold to flag a notable mover |
 | `topN` | `5` | Number of top sectors to highlight |
 

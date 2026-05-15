@@ -29,9 +29,6 @@ indices: Listing<Dynamic> = new {
   new { ticker = "^STOXX50E"; name = "Euro Stoxx 50" }
 }
 
-/// Lookback periods in trading days for return calculations
-lookbackPeriods: Listing<Int> = new { 5; 21; 63 }
-
 /// Z-score threshold above which a move is considered "notable"
 notableMoverThreshold: Float = 2.0
 

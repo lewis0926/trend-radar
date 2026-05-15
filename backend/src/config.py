@@ -23,7 +23,6 @@ class Index:
 class AppConfig:
     etfs: list[ETF]
     indices: list[Index]
-    lookback_periods: list[int]
     notable_mover_threshold: float
     top_n: int
 
@@ -60,7 +59,6 @@ def load_config(path: Path = CONFIG_PATH) -> AppConfig:
     return AppConfig(
         etfs=[ETF(**e) for e in raw["etfs"]],
         indices=[Index(**i) for i in raw["indices"]],
-        lookback_periods=raw["lookbackPeriods"],
         notable_mover_threshold=raw["notableMoverThreshold"],
         top_n=raw["topN"],
     )
