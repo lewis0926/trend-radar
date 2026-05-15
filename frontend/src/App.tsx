@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import type { Report } from './types'
+import { useTheme } from './hooks/useTheme'
 import Header from './components/Header'
 import MarketOverview from './components/MarketOverview'
 import SectorTable from './components/SectorTable'
 import NotableMovers from './components/NotableMovers'
 
 export default function App() {
+  const { theme, toggle } = useTheme()
   const [report, setReport] = useState<Report | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -33,7 +35,7 @@ export default function App() {
 
   return (
     <div className="page">
-      <Header asOf={report.as_of} />
+      <Header asOf={report.as_of} theme={theme} onToggleTheme={toggle} />
       <MarketOverview indices={report.indices} />
       <SectorTable title="Top Trending Sectors" sectors={sorted.slice(0, 5)} />
       <NotableMovers movers={report.notable_movers} />

@@ -23,7 +23,7 @@
 .header-logo-radar { color: var(--orange); }
 
 .header-subtitle {
-  color: #aaaaaa;
+  color: var(--text-muted);
   font-size: 10px;
   margin-top: 4px;
   letter-spacing: 0.14em;
@@ -33,12 +33,39 @@
 
 .header-meta { text-align: right; }
 
-.header-live {
+.header-meta-top {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 5px;
+  gap: 14px;
   margin-bottom: 4px;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.theme-toggle:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+
+.header-live {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .header-live-dot {
@@ -56,7 +83,7 @@
 }
 
 .header-date {
-  color: #cccccc;
+  color: var(--text-bright);
   font-size: 11px;
   font-weight: 900;
 }

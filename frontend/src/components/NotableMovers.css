@@ -29,7 +29,7 @@
 }
 
 .mover-zscore {
-  color: #cccccc;
+  color: var(--text-bright);
   font-size: 11px;
   margin-top: 4px;
 }

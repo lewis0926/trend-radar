@@ -36,7 +36,7 @@ export default function Tooltip({ content, children }: Props) {
           left: pos.x,
           top: pos.y - 8,
           transform: 'translateX(-50%) translateY(-100%)',
-          background: '#0d0d0d',
+          background: 'var(--card)',
           border: `1px solid ${ORANGE}`,
           borderTop: `2px solid ${ORANGE}`,
           padding: '10px 12px',
@@ -45,10 +45,10 @@ export default function Tooltip({ content, children }: Props) {
           pointerEvents: 'none',
         }}>
           <div style={{
-            color: '#f5f5f5',
+            color: 'var(--white)',
             fontSize: 12,
             lineHeight: 1.6,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+            fontFamily: 'var(--font-sans)',
             fontWeight: 400,
           }}>
             {content}
