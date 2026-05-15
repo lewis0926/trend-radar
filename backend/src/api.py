@@ -5,9 +5,9 @@ import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import load_config, AppConfig
-from .data import fetch_prices
-from .analysis import calculate_returns, get_notable_movers
+from config import load_config, AppConfig
+from data import fetch_prices
+from analysis import calculate_returns, get_notable_movers
 
 app = FastAPI(title="Trend Radar API")
 

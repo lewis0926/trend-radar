@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Report, SectorItem } from './types'
 import RadarIcon from './components/RadarIcon'
+import Tooltip from './components/Tooltip'
 
 const CYAN  = '#06b6d4'
 const GREEN = '#22c55e'
@@ -160,7 +161,10 @@ export default function App() {
                 <th style={{ ...thStyle, textAlign: 'right' }}>1W</th>
                 <th style={{ ...thStyle, textAlign: 'right' }}>1M</th>
                 <th style={{ ...thStyle, textAlign: 'right' }}>3M</th>
-                <th style={{ ...thStyle, minWidth: 140 }}>Momentum</th>
+                <th style={{ ...thStyle, minWidth: 140 }}>
+                  Momentum
+                  <Tooltip content="Average percentile rank across 1W, 1M, and 3M returns. A score of 100 means this sector ranked highest across all three timeframes. Rewards consistent momentum, not just a single big move." />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -204,7 +208,10 @@ export default function App() {
                 <th style={{ ...thStyle, textAlign: 'right' }}>1W</th>
                 <th style={{ ...thStyle, textAlign: 'right' }}>1M</th>
                 <th style={{ ...thStyle, textAlign: 'right' }}>3M</th>
-                <th style={{ ...thStyle, minWidth: 140 }}>Momentum</th>
+                <th style={{ ...thStyle, minWidth: 140 }}>
+                  Momentum
+                  <Tooltip content="Average percentile rank across 1W, 1M, and 3M returns. A score of 100 means this sector ranked highest across all three timeframes. Rewards consistent momentum, not just a single big move." />
+                </th>
               </tr>
             </thead>
             <tbody>
