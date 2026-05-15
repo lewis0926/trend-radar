@@ -6,7 +6,15 @@
 .sector-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed; /* prevents cell content from forcing the table wider than its container */
 }
+
+/* Column widths for fixed layout */
+.sector-table th:nth-child(1) { width: 42%; }
+.sector-table th:nth-child(2) { width: 11%; }
+.sector-table th:nth-child(3) { width: 11%; }
+.sector-table th:nth-child(4) { width: 11%; }
+.sector-table th:nth-child(5) { width: 25%; }
 
 .sector-table th {
   background: var(--surface);
@@ -142,4 +150,79 @@
   font-family: var(--font-mono);
   font-size: 12px;
   padding: 16px 0;
+}
+
+/* ── Mobile layout ── */
+@media (max-width: 640px) {
+  /* Flatten table to block so rows can reflow */
+  .sector-table,
+  .sector-table tbody { display: block; }
+  .sector-table thead { display: none; }
+
+  /* Each sector row: name on line 1, returns on line 2 */
+  .sector-row {
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Name cell: full width */
+  .sector-row > td:first-child {
+    flex: 0 0 100%;
+  }
+
+  .sector-row-name {
+    height: auto;
+    min-height: 36px;
+    padding: 8px 14px 2px;
+    flex-wrap: wrap;
+  }
+
+  /* Return cells: equal share of the second line */
+  .sector-row > .return-cell {
+    flex: 1;
+    height: auto;
+    padding: 3px 0 8px 14px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Inject 1W / 1M / 3M label above the value */
+  .return-cell::before {
+    content: attr(data-label);
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+  }
+
+  /* Score bar: slightly wider than the return cells */
+  .sector-row > .score-bar-cell {
+    flex: 1.5;
+    height: auto;
+    min-width: auto;
+    padding: 3px 14px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .score-bar-cell::before {
+    content: 'SCORE';
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+  }
+
+  /* Expanded panel */
+  .sector-expand-row { display: block; }
+  .sector-expand-cell {
+    display: block; /* must override table-cell default or cell expands to fit SVG min-width */
+    padding: 12px;
+  }
 }

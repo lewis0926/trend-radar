@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 /* MA toggles */
@@ -45,11 +46,19 @@
   opacity: 1;
 }
 
+/* Scroll wrapper — chart never compresses below its natural width */
+.candlestick-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  min-width: 0; /* flex children default to min-width: auto, which blocks scrolling */
+}
+
 /* SVG */
 .candlestick-svg {
-  width: 100%;
-  height: 210px;
   display: block;
+  width: 100%;
+  min-width: 700px;
+  height: 210px;
   overflow: visible;
 }
 
@@ -87,10 +96,11 @@
   opacity: 0.25;
 }
 
-/* Date row */
+/* Date row — must match SVG min-width so labels align */
 .candlestick-dates {
   display: flex;
   justify-content: space-between;
+  min-width: 700px;
 }
 
 .candlestick-date {

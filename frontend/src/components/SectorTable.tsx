@@ -22,9 +22,9 @@ function ScoreBar({ score }: { score: number }) {
   )
 }
 
-function ReturnCell({ value }: { value: number }) {
+function ReturnCell({ value, label }: { value: number; label: string }) {
   const cls = value > 0 ? 'positive' : value < 0 ? 'negative' : 'neutral'
-  return <td className={`return-cell mono tabular ${cls}`}>{pct(value)}</td>
+  return <td className={`return-cell mono tabular ${cls}`} data-label={label}>{pct(value)}</td>
 }
 
 interface RowProps {
@@ -47,9 +47,9 @@ function SectorRow({ sector, rank, expanded, onToggle }: RowProps) {
           <span className={`sector-chevron ${expanded ? 'sector-chevron--open' : ''}`}>›</span>
         </div>
       </td>
-      <ReturnCell value={sector.returns['5d']} />
-      <ReturnCell value={sector.returns['21d']} />
-      <ReturnCell value={sector.returns['63d']} />
+      <ReturnCell value={sector.returns['5d']}  label="1W" />
+      <ReturnCell value={sector.returns['21d']} label="1M" />
+      <ReturnCell value={sector.returns['63d']} label="3M" />
       <td className="score-bar-cell">
         <ScoreBar score={sector.composite_score} />
       </td>
