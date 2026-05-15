@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import AppConfig, load_config
-from .data import fetch_prices
+from .data import fetch_prices, fetch_ohlcv
 from .analysis import calculate_returns, get_notable_movers
 
 app = FastAPI(title="Trend Radar API")
@@ -119,19 +119,38 @@ def get_sector(ticker: str) -> dict[str, Any]:
         _build_report()
 
     config: AppConfig = _cache["report"]["config"]
-    etf_prices: pd.DataFrame = _cache["report"]["etf_prices"]
 
-    if ticker not in etf_prices.columns:
+    if ticker not in config.tickers:
         raise HTTPException(status_code=404, detail=f"Ticker {ticker} not found")
 
     report_sectors: list[dict[str, Any]] = _cache["report"]["data"]["sectors"]
     sector_meta: dict[str, Any] = next((s for s in report_sectors if s["ticker"] == ticker), {})
 
-    series: pd.Series = etf_prices[ticker].dropna()
-    normalised: pd.Series = (series / series.iloc[0] * 100).round(2)
-    prices: list[dict[str, Any]] = [
-        {"date": str(idx.date()), "value": float(val)}
-        for idx, val in normalised.items()
+    # Fetch 2y of OHLC so 200MA is fully formed across the displayed 1y window
+    ohlcv: pd.DataFrame = fetch_ohlcv(ticker)
+    close: pd.Series = ohlcv["Close"]
+    ma20: pd.Series = close.rolling(20).mean()
+    ma50: pd.Series = close.rolling(50).mean()
+    ma200: pd.Series = close.rolling(200).mean()
+
+    # Display only the last 252 trading days (~1 year)
+    display: pd.DataFrame = ohlcv.iloc[-252:]
+
+    def _opt(v: Any) -> float | None:
+        return round(float(v), 2) if pd.notna(v) else None
+
+    candles: list[dict[str, Any]] = [
+        {
+            "date": str(idx.date()),
+            "open": round(float(row["Open"]), 2),
+            "high": round(float(row["High"]), 2),
+            "low": round(float(row["Low"]), 2),
+            "close": round(float(row["Close"]), 2),
+            "ma20": _opt(ma20[idx]),
+            "ma50": _opt(ma50[idx]),
+            "ma200": _opt(ma200[idx]),
+        }
+        for idx, row in display.iterrows()
     ]
 
     return {
@@ -140,7 +159,7 @@ def get_sector(ticker: str) -> dict[str, Any]:
         "sector": config.sector_for(ticker),
         "returns": sector_meta.get("returns", {}),
         "composite_score": sector_meta.get("composite_score", 0.0),
-        "prices": prices,
+        "candles": candles,
     }
 
 

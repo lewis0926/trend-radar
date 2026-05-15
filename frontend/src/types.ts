@@ -19,6 +19,17 @@ export interface SectorItem {
   returns: Returns
 }
 
+export interface CandleData {
+  date: string
+  open: number
+  high: number
+  low: number
+  close: number
+  ma20: number | null
+  ma50: number | null
+  ma200: number | null
+}
+
 export interface CommodityItem {
   ticker: string
   name: string

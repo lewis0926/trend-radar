@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
 import type { Report } from './types'
 import { useTheme } from './hooks/useTheme'
 import Header from './components/Header'
 import MarketOverview from './components/MarketOverview'
 import SectorTable from './components/SectorTable'
 import NotableMovers from './components/NotableMovers'
-import SectorDetail from './pages/SectorDetail'
 
 function Dashboard({ report, error }: { report: Report | null; error: string | null }) {
   if (error) return (
@@ -24,9 +22,8 @@ function Dashboard({ report, error }: { report: Report | null; error: string | n
   return (
     <>
       <MarketOverview indices={report.indices} commodities={report.commodities} />
-      <SectorTable title="Top Trending Sectors" sectors={sorted.slice(0, 5)} />
       <NotableMovers movers={report.notable_movers} />
-      <SectorTable title="All Sectors" sectors={sorted} />
+      <SectorTable title="Sectors" sectors={sorted} />
     </>
   )
 }
@@ -46,10 +43,7 @@ export default function App() {
   return (
     <div className="page">
       <Header asOf={report?.as_of ?? ''} theme={theme} onToggleTheme={toggle} />
-      <Routes>
-        <Route path="/" element={<Dashboard report={report} error={error} />} />
-        <Route path="/sector/:ticker" element={<SectorDetail />} />
-      </Routes>
+      <Dashboard report={report} error={error} />
     </div>
   )
 }

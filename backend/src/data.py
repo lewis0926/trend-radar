@@ -11,3 +11,8 @@ def fetch_prices(tickers: list[str], period: str = "1y") -> pd.DataFrame:
     prices = prices.dropna(how="all")
     prices = prices.ffill().dropna()
     return prices
+
+
+def fetch_ohlcv(ticker: str, period: str = "2y") -> pd.DataFrame:
+    raw: pd.DataFrame = yf.Ticker(ticker).history(period=period)
+    return raw[["Open", "High", "Low", "Close"]].dropna()
