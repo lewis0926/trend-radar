@@ -167,8 +167,12 @@ metadata:
   name: trend-radar
   namespace: trend-radar
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
 spec:
+  tls:
+    - hosts:
+        - ${INGRESS_HOST}
   rules:
     - host: ${INGRESS_HOST}
       http:
