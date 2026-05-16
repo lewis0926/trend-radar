@@ -1,0 +1,182 @@
+# Trend Radar — k3s deployment
+#
+# Prerequisites (run once):
+#
+#   1. GHCR image pull secret (replace <user> and <token>):
+#      kubectl create secret docker-registry ghcr-secret \
+#        --docker-server=ghcr.io \
+#        --docker-username=<github-user> \
+#        --docker-password=<github-pat> \
+#        -n trend-radar
+#
+#   2. Backend config secret (contains API keys — never commit this):
+#      kubectl create secret generic backend-config \
+#        --from-file=config.json=/path/to/your/config.json \
+#        -n trend-radar
+#
+# Deploy / upgrade:
+#   ./deploy/deploy.sh [backend-tag] [frontend-tag]
+#
+# Roll out a specific image SHA:
+#   kubectl set image deployment/backend backend=ghcr.io/lewishum/trend-radar-backend-main:<sha> -n trend-radar
+#   kubectl set image deployment/frontend frontend=ghcr.io/lewishum/trend-radar-frontend-main:<sha> -n trend-radar
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: trend-radar
+
+# ── Backend ──────────────────────────────────────────────────────────────────
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: trend-radar
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: backend
+          image: ${BACKEND_IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.json
+              subPath: config.json
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: backend-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: trend-radar
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 8000
+      targetPort: 8000
+
+# ── Frontend ─────────────────────────────────────────────────────────────────
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: trend-radar
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: frontend
+          image: ${FRONTEND_IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: trend-radar
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+
+# ── Ingress (Traefik — k3s default) ──────────────────────────────────────────
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: trend-radar
+  namespace: trend-radar
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+    - host: ${INGRESS_HOST}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
