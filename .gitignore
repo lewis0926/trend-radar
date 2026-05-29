@@ -35,3 +35,6 @@ backend/config.json
 
 # Frontend
 frontend/node_modules/
+
+# CLAUDE
+.claude

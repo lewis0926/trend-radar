@@ -13,8 +13,11 @@ function MarketCard({ name, returns }: CardProps) {
   return (
     <div className={`index-card ${isUp ? 'index-card--up' : 'index-card--down'}`}>
       <div className="index-card-name">{name}</div>
-      <div className={`index-card-value mono tabular ${isUp ? 'positive' : 'negative'}`}>
-        {pct(returns['5d'])}
+      <div className="index-card-main">
+        <span className="index-card-stat-label">1W</span>
+        <div className={`index-card-value mono tabular ${isUp ? 'positive' : 'negative'}`}>
+          {pct(returns['5d'])}
+        </div>
       </div>
       <div className="index-card-stats">
         {([['1M', returns['21d']], ['3M', returns['63d']]] as [string, number][]).map(([label, val]) => (

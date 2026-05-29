@@ -38,11 +38,17 @@
   font-weight: 600;
 }
 
+.index-card-main {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
 .index-card-value {
   font-size: 22px;
   font-weight: 700;
   line-height: 1;
-  margin-bottom: 8px;
 }
 
 .index-card-stats {
