@@ -14,11 +14,16 @@ const PERIOD_MARKS = [
   { label: '1W', offset: 5  },
 ]
 
-interface Props {
-  candles: CandleData[]
+function toTvSymbol(ticker: string): string {
+  return ticker.replace(/^\^/, '').replace(/=F$/, '').replace(/-/g, '')
 }
 
-export default function CandlestickChart({ candles }: Props) {
+interface Props {
+  candles: CandleData[]
+  ticker?: string
+}
+
+export default function CandlestickChart({ candles, ticker }: Props) {
   const [visible, setVisible] = useState<Record<string, boolean>>({ ma20: true, ma50: true, ma200: true })
   const [hovered, setHovered] = useState<{ idx: number; x: number; y: number } | null>(null)
   const svgRef = useRef<SVGSVGElement>(null)
@@ -81,17 +86,27 @@ export default function CandlestickChart({ candles }: Props) {
   return (
     <div className="candlestick-chart">
       <div className="candlestick-controls">
-        {MA_CONFIG.map(({ key, label, color }) => (
+        {MA_CONFIG.map(({ key, label }) => (
           <button
             key={key}
-            className={`ma-toggle ${visible[key] ? 'ma-toggle--active' : ''}`}
-            style={{ '--ma-color': color } as React.CSSProperties}
+            className={`ma-toggle ma-toggle--${key} ${visible[key] ? 'ma-toggle--active' : ''}`}
             onClick={e => { e.stopPropagation(); setVisible(p => ({ ...p, [key]: !p[key] })) }}
           >
             <span className="ma-toggle-dot" />
             {label}
           </button>
         ))}
+        {ticker && (
+          <a
+            className="tv-link"
+            href={`https://www.tradingview.com/chart/?symbol=${toTvSymbol(ticker)}`}
+            target="_blank"
+            rel="noreferrer"
+            onClick={e => e.stopPropagation()}
+          >
+            TradingView ↗
+          </a>
+        )}
       </div>
 
       {/* Scroll wrapper keeps the chart at full fidelity on narrow screens */}

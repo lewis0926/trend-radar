@@ -112,7 +112,7 @@ export default function MarketOverview({ indices, commodities }: Props) {
                 <span className="chart-modal-err-prefix">ERR </span>Failed to load chart data
               </div>
             )}
-            {Array.isArray(chart) && <CandlestickChart candles={chart} />}
+            {Array.isArray(chart) && <CandlestickChart candles={chart} ticker={modal.ticker} />}
           </div>
         </div>
       )}

@@ -120,7 +120,7 @@ export default function SectorTable({ title, sectors }: Props) {
                         </div>
                       )}
                       {Array.isArray(chartCache[s.ticker]) && (
-                        <CandlestickChart candles={chartCache[s.ticker] as CandleData[]} />
+                        <CandlestickChart candles={chartCache[s.ticker] as CandleData[]} ticker={s.ticker} />
                       )}
                     </td>
                   </tr>
