@@ -73,3 +73,83 @@
   font-size: 12px;
   font-weight: 600;
 }
+
+.index-card {
+  cursor: pointer;
+}
+
+.chart-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.chart-modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 20px;
+  width: min(940px, 95vw);
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.chart-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.chart-modal-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.chart-modal-close {
+  background: none;
+  border: none;
+  color: var(--gray);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  line-height: 1;
+}
+
+.chart-modal-close:hover {
+  color: var(--text);
+}
+
+.chart-modal-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gray);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 24px 0;
+}
+
+.chart-modal-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--orange);
+  animation: pulse 1.2s infinite;
+}
+
+.chart-modal-error {
+  color: var(--red);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 24px 0;
+}
+
+.chart-modal-err-prefix {
+  color: var(--gray);
+}

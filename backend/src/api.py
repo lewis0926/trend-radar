@@ -163,6 +163,42 @@ def get_sector(ticker: str) -> dict[str, Any]:
     }
 
 
+@app.get("/api/chart/{ticker}")
+def get_chart(ticker: str) -> dict[str, Any]:
+    try:
+        ohlcv: pd.DataFrame = fetch_ohlcv(ticker)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"No data for {ticker}")
+
+    if ohlcv.empty:
+        raise HTTPException(status_code=404, detail=f"No data for {ticker}")
+
+    close: pd.Series = ohlcv["Close"]
+    ma20: pd.Series = close.rolling(20).mean()
+    ma50: pd.Series = close.rolling(50).mean()
+    ma200: pd.Series = close.rolling(200).mean()
+    display: pd.DataFrame = ohlcv.iloc[-252:]
+
+    def _opt(v: Any) -> float | None:
+        return round(float(v), 2) if pd.notna(v) else None
+
+    candles: list[dict[str, Any]] = [
+        {
+            "date": str(idx.date()),
+            "open": round(float(row["Open"]), 2),
+            "high": round(float(row["High"]), 2),
+            "low": round(float(row["Low"]), 2),
+            "close": round(float(row["Close"]), 2),
+            "ma20": _opt(ma20[idx]),
+            "ma50": _opt(ma50[idx]),
+            "ma200": _opt(ma200[idx]),
+        }
+        for idx, row in display.iterrows()
+    ]
+
+    return {"ticker": ticker, "candles": candles}
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
