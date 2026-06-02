@@ -10,7 +10,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 YAML="$SCRIPT_DIR/deploy.yaml"
 REMOTE="k3s-oracle-cloud"
-REMOTE_DIR="/home/ubuntu/trend-radar"
+REMOTE_DIR="/home/ubuntu/apps/trend-radar"
 OWNER="lewis0926"
 UPLOAD=false
 
